@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>流浪动物上报 · 暖巢 Warmnest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #FAF6F1;
+  --bg-deep:   #EAE0D5;
+  --card:      #FFFFFF;
+  --gold:      #C9A66B;
+  --gold-dark: #A8854B;
+  --deep:      #5E503F;
+  --text:      #22333B;
+  --muted:     #8B7E70;
+  --shadow-1:  0 4px 24px rgba(94, 80, 63, 0.08);
+  --shadow-2:  0 12px 40px rgba(94, 80, 63, 0.16);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Noto Serif SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; }
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ============ Navbar ============ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(250, 246, 241, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201, 166, 107, 0.14);
+  z-index: 100;
+  transition: box-shadow 0.3s;
+}
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 40px;
+}
+.logo {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--deep);
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+.logo .dot { color: var(--gold); margin: 0 4px; }
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  position: relative;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -8px; left: 50%;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: all 0.3s;
+  transform: translateX(-50%);
+}
+.nav-links a:hover { color: var(--gold-dark); }
+.nav-links a:hover::after { width: 24px; }
+.nav-links a.active { color: var(--gold-dark); }
+.nav-links a.active::after { width: 24px; }
+.nav-cta {
+  background: var(--deep);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.nav-cta:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+/* ============ Page Hero ============ */
+.page-hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 140px 0 80px;
+  background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-hero .bg-letters {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 360px;
+  color: rgba(201, 166, 107, 0.07);
+  letter-spacing: -10px;
+  bottom: -100px;
+  right: -30px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+.page-hero .container { position: relative; z-index: 2; text-align: center; }
+.eyebrow {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--gold-dark);
+  letter-spacing: 4px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUpHero 0.9s 0.1s forwards;
+}
+.eyebrow::before, .eyebrow::after {
+  content: '——';
+  color: var(--gold);
+  margin: 0 14px;
+  font-style: normal;
+  letter-spacing: 0;
+}
+.page-hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 56px;
+  font-weight: 500;
+  color: var(--deep);
+  line-height: 1.3;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+.page-hero h1 .title-line {
+  display: block;
+  overflow: hidden;
+}
+.page-hero h1 .title-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: titleRise 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.page-hero h1 .title-line:nth-child(1) .title-inner { animation-delay: 0.3s; }
+.page-hero h1 .title-line:nth-child(2) .title-inner { animation-delay: 0.5s; }
+.page-hero h1 .accent {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-dark);
+  font-weight: 500;
+}
+.divider-mini {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 28px;
+  opacity: 0;
+  animation: fadeUpHero 0.9s 0.9s forwards;
+}
+.page-hero .lead {
+  max-width: 640px;
+  margin: 0 auto 14px;
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.9;
+  opacity: 0;
+  animation: fadeUpHero 0.9s 1.1s forwards;
+}
+.page-hero .lead-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--gold-dark);
+  letter-spacing: 0.5px;
+  opacity: 0;
+  animation: fadeUpHero 0.9s 1.3s forwards;
+}
+
+/* Scroll cue */
+.scroll-cue {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--gold-dark);
+  letter-spacing: 4px;
+  text-decoration: none;
+  opacity: 0;
+  animation: fadeUpHero 1s 1.6s forwards;
+}
+.scroll-cue span { text-decoration: none; }
+.scroll-cue::after {
+  content: '';
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+  animation: scrollLine 2.2s ease-in-out infinite;
+}
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; opacity: 0.3; }
+  50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  51%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+  100% { transform: scaleY(0); transform-origin: bottom; opacity: 0.3; }
+}
+
+/* Floating dots */
+.float-dot {
+  position: absolute;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatRise linear infinite;
+  pointer-events: none;
+}
+@keyframes floatRise {
+  0%   { transform: translateY(0) scale(1); opacity: 0; }
+  15%  { opacity: 0.55; }
+  70%  { opacity: 0.4; }
+  100% { transform: translateY(-300px) scale(0.6); opacity: 0; }
+}
+
+@keyframes titleRise {
+  to { transform: translateY(0); }
+}
+@keyframes fadeUpHero {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ Section common ============ */
+section { position: relative; }
+
+.section-head {
+  text-align: center;
+  margin-bottom: 70px;
+}
+.section-eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--gold-dark);
+  letter-spacing: 3px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 38px;
+  font-weight: 500;
+  color: var(--deep);
+  letter-spacing: 1.5px;
+  margin-bottom: 18px;
+}
+.section-sub {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 580px;
+  margin: 0 auto;
+}
+.divider-line {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  margin: 22px auto;
+}
+
+/* ============ Process Section ============ */
+.process {
+  padding: 130px 0 110px;
+  background: var(--bg);
+  position: relative;
+}
+.process .bg-letters {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 220px;
+  color: rgba(201, 166, 107, 0.05);
+  letter-spacing: -6px;
+  top: 40px;
+  left: -30px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute;
+  top: 56px;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+  opacity: 0.4;
+  z-index: 0;
+}
+.step-card {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 8px;
+}
+.step-num {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  background: var(--bg-deep);
+  border: 1px solid rgba(201, 166, 107, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 30px;
+  color: var(--gold-dark);
+  font-weight: 500;
+  position: relative;
+  transition: all 0.4s;
+}
+.step-card:hover .step-num {
+  background: var(--gold);
+  color: #fff;
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(201, 166, 107, 0.3);
+}
+.step-icon {
+  font-size: 22px;
+  color: var(--gold-dark);
+  margin-bottom: 10px;
+}
+.step-card h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--deep);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.step-card .step-en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--gold-dark);
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.step-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ============ Form Section ============ */
+.form-section {
+  padding: 110px 0 110px;
+  background: var(--bg-deep);
+  position: relative;
+  overflow: hidden;
+}
+.form-section .bg-letters {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 240px;
+  color: rgba(201, 166, 107, 0.07);
+  letter-spacing: -7px;
+  bottom: -40px;
+  right: -30px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+.form-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 64px 70px;
+  box-shadow: var(--shadow-2);
+  position: relative;
+  z-index: 2;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 32px;
+}
+.form-field { display: flex; flex-direction: column; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field label {
+  font-size: 13px;
+  color: var(--deep);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.form-field label .req { color: var(--gold-dark); margin-left: 4px; }
+.form-field label .en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-dark);
+  font-size: 12px;
+  margin-left: 6px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+.form-field input,
+.form-field select,
+.form-field textarea {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid rgba(94, 80, 63, 0.12);
+  border-radius: 4px;
+  padding: 14px 16px;
+  outline: none;
+  transition: all 0.3s;
+}
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--gold);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(201, 166, 107, 0.12);
+}
+.form-field textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.7;
+}
+.form-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23A8854B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+  cursor: pointer;
+}
+
+/* Image upload */
+.upload-area {
+  border: 2px dashed rgba(201, 166, 107, 0.45);
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.upload-area:hover {
+  border-color: var(--gold);
+  background: #fff;
+}
+.upload-area.has-image { padding: 0; border-style: solid; }
+.upload-area input[type=file] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.upload-icon {
+  font-size: 28px;
+  color: var(--gold-dark);
+  margin-bottom: 10px;
+}
+.upload-area p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.upload-area p .em {
+  color: var(--gold-dark);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14px;
+}
+.upload-area .upload-hint {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+.upload-preview {
+  width: 100%;
+  height: 220px;
+  border-radius: 6px;
+  object-fit: cover;
+  display: none;
+}
+.upload-area.has-image .upload-preview { display: block; }
+.upload-area.has-image .upload-icon,
+.upload-area.has-image p,
+.upload-area.has-image .upload-hint { display: none; }
+
+/* Soft tip */
+.soft-tip {
+  margin-top: 32px;
+  padding: 22px 28px;
+  background: linear-gradient(90deg, rgba(201, 166, 107, 0.08), rgba(201, 166, 107, 0.02));
+  border-left: 2px solid var(--gold);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.soft-tip .tip-icon {
+  flex-shrink: 0;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(201, 166, 107, 0.15);
+  color: var(--gold-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.soft-tip-text {
+  font-size: 13.5px;
+  color: var(--deep);
+  line-height: 1.7;
+}
+.soft-tip-text .phone {
+  color: var(--gold-dark);
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  margin: 0 4px;
+}
+
+.form-actions {
+  margin-top: 40px;
+  text-align: center;
+}
+.btn {
+  display: inline-block;
+  padding: 16px 56px;
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  transition: all 0.3s;
+}
+.btn-primary {
+  background: var(--deep);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: var(--gold-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(168, 133, 75, 0.3);
+}
+.form-actions .hint {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* ============ Recent Reports ============ */
+.recent {
+  padding: 130px 0 130px;
+  background: var(--bg);
+  position: relative;
+}
+.recent .bg-letters {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 220px;
+  color: rgba(201, 166, 107, 0.05);
+  letter-spacing: -6px;
+  top: 40px;
+  right: -30px;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+.recent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.report-card {
+  background: var(--card);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  transition: all 0.4s;
+  cursor: pointer;
+  position: relative;
+}
+.report-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-2);
+}
+.report-img {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+.report-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.45));
+}
+.status-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  z-index: 2;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+}
+.status-badge::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: 1px;
+}
+.status-rescued { color: #2d6a4f; }
+.status-rescued::before { background: #4a9f6e; box-shadow: 0 0 0 3px rgba(74, 159, 110, 0.2); }
+.status-following { color: var(--gold-dark); }
+.status-following::before { background: var(--gold); box-shadow: 0 0 0 3px rgba(201, 166, 107, 0.25); animation: pulse 2s infinite; }
+.status-pending { color: var(--deep); }
+.status-pending::before { background: var(--deep); box-shadow: 0 0 0 3px rgba(94, 80, 63, 0.2); }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(201, 166, 107, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(201, 166, 107, 0.1); }
+}
+
+.report-meta {
+  padding: 22px 26px 24px;
+}
+.report-meta .meta-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+.report-meta .meta-top .id {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-dark);
+}
+.report-meta h4 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--deep);
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+.report-meta .desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.report-meta .loc {
+  font-size: 12.5px;
+  color: var(--deep);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(94, 80, 63, 0.08);
+}
+.report-meta .loc::before {
+  content: '◈';
+  color: var(--gold);
+  font-size: 11px;
+}
+
+/* ============ Footer ============ */
+.footer {
+  background: var(--deep);
+  color: rgba(255,255,255,0.7);
+  padding: 80px 0 30px;
+  position: relative;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.footer-brand h3 {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+.footer-brand h3 .dot { color: var(--gold); margin: 0 4px; }
+.footer-brand p {
+  font-size: 14px;
+  line-height: 1.9;
+  max-width: 320px;
+}
+.footer-col h5 {
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  margin-bottom: 22px;
+  font-weight: 500;
+}
+.footer-col ul { list-style: none; }
+.footer-col li {
+  margin-bottom: 12px;
+  font-size: 13.5px;
+}
+.footer-col a {
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+  letter-spacing: 0.5px;
+}
+.footer-bottom .en {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* ============ Toast ============ */
+.toast {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  background: #fff;
+  color: var(--deep);
+  padding: 16px 32px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-2);
+  border: 1px solid rgba(201, 166, 107, 0.3);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast .check {
+  width: 22px; height: 22px;
+  background: var(--gold);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ============ Reveal animations ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-stagger.in > *:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(2) { transition-delay: 0.18s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(3) { transition-delay: 0.31s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(4) { transition-delay: 0.44s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(5) { transition-delay: 0.57s; opacity: 1; transform: translateY(0); }
+.reveal-stagger.in > *:nth-child(6) { transition-delay: 0.70s; opacity: 1; transform: translateY(0); }
+
+@media (max-width: 960px) {
+  .nav-links { display: none; }
+  .page-hero h1 { font-size: 38px; }
+  .page-hero { min-height: auto; padding: 130px 0 80px; }
+  .process-grid { grid-template-columns: repeat(2, 1fr); gap: 50px 30px; }
+  .process-grid::before { display: none; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-wrap { padding: 40px 28px; }
+  .recent-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ Navbar ============ -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">暖巢<span class="dot">·</span>Warmnest</a>
+    <ul class="nav-links">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="adoption.html">待领养</a></li>
+      <li><a href="report.html" class="active">流浪动物上报</a></li>
+      <li><a href="index.html#stories">救助故事</a></li>
+      <li><a href="index.html#volunteer">志愿者</a></li>
+      <li><a href="index.html#footer">关于我们</a></li>
+    </ul>
+    <a href="#form" class="nav-cta">立即上报</a>
+  </div>
+</nav>
+
+<!-- ============ Page Hero ============ -->
+<section class="page-hero">
+  <span class="float-dot" style="left:6%;  bottom:10%; width:7px; height:7px; animation-duration:13s; animation-delay:0s;"></span>
+  <span class="float-dot" style="left:11%; bottom:32%; width:5px; height:5px; animation-duration:15s; animation-delay:2.5s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:18%; bottom:18%; width:4px; height:4px; animation-duration:14s; animation-delay:6s;"></span>
+  <span class="float-dot" style="left:22%; bottom:8%;  width:6px; height:6px; animation-duration:12s; animation-delay:5s;"></span>
+  <span class="float-dot" style="left:30%; bottom:42%; width:5px; height:5px; animation-duration:16s; animation-delay:1s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:36%; bottom:24%; width:4px; height:4px; animation-duration:17s; animation-delay:3.5s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:46%; bottom:12%; width:7px; height:7px; animation-duration:13s; animation-delay:7s;"></span>
+  <span class="float-dot" style="left:54%; bottom:38%; width:5px; height:5px; animation-duration:15s; animation-delay:2s;"></span>
+  <span class="float-dot" style="left:62%; bottom:6%;  width:4px; height:4px; animation-duration:14s; animation-delay:4.5s;"></span>
+  <span class="float-dot" style="left:70%; bottom:22%; width:6px; height:6px; animation-duration:11s; animation-delay:0.5s;"></span>
+  <span class="float-dot" style="left:78%; bottom:36%; width:5px; height:5px; animation-duration:16s; animation-delay:5.5s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:86%; bottom:14%; width:7px; height:7px; animation-duration:13s; animation-delay:3s;"></span>
+  <span class="float-dot" style="left:92%; bottom:30%; width:4px; height:4px; animation-duration:15s; animation-delay:1.5s; background:var(--gold-dark);"></span>
+  <div class="bg-letters">Report</div>
+  <div class="container">
+    <span class="eyebrow">Stray Animal Report</span>
+    <h1>
+      <span class="title-line"><span class="title-inner">你的一次驻足，</span></span>
+      <span class="title-line"><span class="title-inner">可能改变<span class="accent"> a life </span>的轨迹</span></span>
+    </h1>
+    <div class="divider-mini"></div>
+    <p class="lead">
+      街角、桥下、车底——也许就在你今天经过的地方，<br>
+      正有一个生命在等待被看见。提交一次上报，让救助开始。
+    </p>
+    <p class="lead-en">Every moment of attention can change a fate.</p>
+  </div>
+  <a href="#process" class="scroll-cue"><span>SCROLL</span></a>
+</section>
+
+<!-- ============ Process ============ -->
+<section class="process" id="process">
+  <div class="bg-letters">Process</div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">How It Works</span>
+      <h2 class="section-title">四步完成上报</h2>
+      <div class="divider-line"></div>
+      <p class="section-sub">从发现到救助，每一步都被认真对待</p>
+    </div>
+    <div class="process-grid reveal-stagger">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h4>发现</h4>
+        <div class="step-en">Discover</div>
+        <p>留意身边的流浪动物，<br>注意它们的状态与位置</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h4>记录</h4>
+        <div class="step-en">Capture</div>
+        <p>拍下清晰照片，<br>记录所在地点与时间</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h4>上报</h4>
+        <div class="step-en">Submit</div>
+        <p>填写下方表单，<br>志愿者将在 1-2 小时内响应</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <h4>跟进</h4>
+        <div class="step-en">Follow Up</div>
+        <p>通过短信获取处理进度，<br>共同见证生命转折</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Form ============ -->
+<section class="form-section" id="form">
+  <div class="bg-letters">Submit</div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Report Form</span>
+      <h2 class="section-title">提交上报信息</h2>
+      <div class="divider-line"></div>
+      <p class="section-sub">所有信息严格保密 · 仅用于救助行动</p>
+    </div>
+    <div class="form-wrap reveal">
+      <form id="reportForm" class="form-grid">
+        <div class="form-field full">
+          <label>动物照片<span class="req">*</span><span class="en">/ Photo</span></label>
+          <div class="upload-area" id="uploadArea">
+            <input type="file" id="photoInput" accept="image/*" required>
+            <img class="upload-preview" id="previewImg" alt="preview">
+            <div class="upload-icon">⊕</div>
+            <p>点击上传 <span class="em">or</span> 拖拽图片至此</p>
+            <div class="upload-hint">JPG / PNG · 最大 5MB</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>动物种类<span class="req">*</span><span class="en">/ Species</span></label>
+          <select id="fSpecies" required>
+            <option value="">请选择</option>
+            <option>猫 / Cat</option>
+            <option>狗 / Dog</option>
+            <option>兔 / Rabbit</option>
+            <option>鸟类 / Bird</option>
+            <option>其他 / Other</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>发现时间<span class="req">*</span><span class="en">/ Time</span></label>
+          <input type="datetime-local" id="fFoundAt" required>
+        </div>
+
+        <div class="form-field full">
+          <label>具体位置<span class="req">*</span><span class="en">/ Location</span></label>
+          <input type="text" id="fLocation" placeholder="如：北京市朝阳区建国路 88 号附近便利店旁" required>
+        </div>
+
+        <div class="form-field full">
+          <label>状态描述<span class="req">*</span><span class="en">/ Description</span></label>
+          <textarea id="fDescription" placeholder="请简要描述：体型、毛色、是否受伤、性格表现、是否亲人……越详细越有助于救助" required></textarea>
+        </div>
+
+        <div class="form-field full">
+          <label>联系方式<span class="req">*</span><span class="en">/ Contact</span></label>
+          <input type="tel" id="fContact" placeholder="请填写手机号，便于志愿者与您联系" required>
+        </div>
+
+        <div class="form-field full">
+          <div class="soft-tip">
+            <div class="tip-icon">♡</div>
+            <div class="soft-tip-text">
+              若动物已严重受伤或处于危急状态，请直接拨打救助专线 <span class="phone">400-822-1234</span>，我们将优先派遣最近的志愿者。
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field full form-actions">
+          <button type="submit" class="btn btn-primary" id="submitBtn">提交上报</button>
+          <div class="hint" id="formHint">— 提交即代表您同意我们使用上述信息进行救助协调 —</div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Recent Reports ============ -->
+<section class="recent">
+  <div class="bg-letters">Recent</div>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Latest Reports</span>
+      <h2 class="section-title">最近上报</h2>
+      <div class="divider-line"></div>
+      <p class="section-sub">每一次上报，都被温柔承接</p>
+    </div>
+    <div class="recent-grid reveal-stagger" id="recentGrid">
+      <!-- 卡片由 JS 动态渲染（默认数据 + Supabase 实时数据） -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ Footer ============ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>暖巢<span class="dot">·</span>Warmnest</h3>
+        <p>一个专注于流浪动物救助与领养的公益社交平台。让每一只灵魂，都有归处。</p>
+      </div>
+      <div class="footer-col">
+        <h5>EXPLORE</h5>
+        <ul>
+          <li><a href="adoption.html">待领养</a></li>
+          <li><a href="report.html">流浪动物上报</a></li>
+          <li><a href="index.html#stories">救助故事</a></li>
+          <li><a href="index.html#volunteer">志愿者招募</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>SUPPORT</h5>
+        <ul>
+          <li><a href="#">救助专线</a></li>
+          <li><a href="#">公益捐赠</a></li>
+          <li><a href="#">合作机构</a></li>
+          <li><a href="#">常见问题</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>CONTACT</h5>
+        <ul>
+          <li>contact@warmnest.org</li>
+          <li>400-822-1234</li>
+          <li>北京市朝阳区</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Warmnest 暖巢公益. All rights reserved.</span>
+      <span class="en">A Home For Every Soul · EST. 2026</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ Toast ============ -->
+<div class="toast" id="toast">
+  <span class="check" id="toastIcon">✓</span>
+  <span id="toastText">上报已提交，志愿者将尽快与您联系</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ============================================================
+//  Supabase 配置
+//  ----------------------------------------------------------
+//  使用步骤：
+//  1. 在 https://supabase.com 创建 Project
+//  2. SQL Editor 运行同目录下的 supabase_setup.sql
+//  3. Settings → API 复制 URL / anon public key 替换下面两个值
+//  未配置时页面将自动进入"演示模式"，提交不会真的写入数据库。
+// ============================================================
+const SUPABASE_URL      = 'https://vwsciuszxowzsbeeaslb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_PGJuUWzvt0b_yrWaBmYHxA_BMgtTfur';
+const STORAGE_BUCKET    = 'animal-photos';
+
+const _supaReady = SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 30;
+const sb = (_supaReady && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
+if (!_supaReady) {
+  console.warn('[Warmnest] Supabase 未配置 — 当前为演示模式。请在 report.html 顶部填入 SUPABASE_URL 与 SUPABASE_ANON_KEY，并在 Supabase SQL Editor 中执行 supabase_setup.sql。');
+}
+
+// ============ Reveal on scroll ============
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
+
+// ============ Image upload preview ============
+const uploadArea = document.getElementById('uploadArea');
+const photoInput = document.getElementById('photoInput');
+const previewImg = document.getElementById('previewImg');
+
+photoInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('图片大小不能超过 5MB');
+    photoInput.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    previewImg.src = ev.target.result;
+    uploadArea.classList.add('has-image');
+  };
+  reader.readAsDataURL(file);
+});
+
+// ============ Drag & drop ============
+['dragover', 'dragenter'].forEach(ev => {
+  uploadArea.addEventListener(ev, (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = 'var(--gold)';
+    uploadArea.style.background = '#fff';
+  });
+});
+['dragleave', 'drop'].forEach(ev => {
+  uploadArea.addEventListener(ev, (e) => {
+    e.preventDefault();
+    if (!uploadArea.classList.contains('has-image')) {
+      uploadArea.style.borderColor = '';
+      uploadArea.style.background = '';
+    }
+  });
+});
+uploadArea.addEventListener('drop', (e) => {
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    photoInput.files = e.dataTransfer.files;
+    photoInput.dispatchEvent(new Event('change'));
+  }
+});
+
+// ============ Toast ============
+const toast     = document.getElementById('toast');
+const toastIcon = document.getElementById('toastIcon');
+const toastText = document.getElementById('toastText');
+
+function showToast(text, isError = false) {
+  toastText.textContent = text;
+  toastIcon.textContent = isError ? '!' : '✓';
+  toastIcon.style.background = isError ? '#c46b6b' : '';
+  toast.style.borderColor = isError ? 'rgba(196, 107, 107, 0.4)' : '';
+  toast.classList.add('show');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ============ Helpers ============
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+}
+
+function formatRelativeTime(iso) {
+  if (!iso) return '';
+  const t = new Date(iso);
+  const diff = Date.now() - t.getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1)   return '刚刚';
+  if (mins < 60)  return `${mins} 分钟前`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} 小时前`;
+  const days = Math.floor(hours / 24);
+  if (days < 30)  return `${days} 天前`;
+  return t.toLocaleDateString('zh-CN');
+}
+
+function generateRefId() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  const seq = String(Math.floor(Math.random() * 9000) + 1000);
+  return `WN-${yyyy}-${mm}${dd}-${seq}`;
+}
+
+function statusLabel(s) {
+  return ({ rescued: '已救助', following: '跟进中', pending: '待响应' })[s] || '待响应';
+}
+function statusClass(s) {
+  return `status-${s || 'pending'}`;
+}
+
+function buildReportCard(r) {
+  const card = document.createElement('div');
+  card.className = 'report-card';
+  const photo = r.photo_url || 'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=800&q=80';
+  card.innerHTML = `
+    <div class="report-img" style="background-image:url('${escapeHtml(photo)}');">
+      <span class="status-badge ${statusClass(r.status)}">${statusLabel(r.status)}</span>
+    </div>
+    <div class="report-meta">
+      <div class="meta-top">
+        <span class="id">#${escapeHtml(r.ref_id)}</span>
+        <span>${formatRelativeTime(r.created_at)}</span>
+      </div>
+      <h4>${escapeHtml(r.title || '匿名上报')}</h4>
+      <p class="desc">${escapeHtml(r.description || '')}</p>
+      <div class="loc">${escapeHtml(r.location || '')}</div>
+    </div>
+  `;
+  return card;
+}
+
+// ============ Form submit ============
+const form      = document.getElementById('reportForm');
+const submitBtn = document.getElementById('submitBtn');
+const formHint  = document.getElementById('formHint');
+const recentGrid = document.getElementById('recentGrid');
+
+function resetForm() {
+  form.reset();
+  uploadArea.classList.remove('has-image');
+  previewImg.src = '';
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const file        = photoInput.files[0];
+  const species     = document.getElementById('fSpecies').value.trim();
+  const foundAt     = document.getElementById('fFoundAt').value;
+  const location    = document.getElementById('fLocation').value.trim();
+  const description = document.getElementById('fDescription').value.trim();
+  const contact     = document.getElementById('fContact').value.trim();
+
+  // ---- 演示模式：未配置 Supabase 时只展示 Toast ----
+  if (!sb) {
+    showToast('上报已提交（演示模式 · 未连接数据库）');
+    setTimeout(resetForm, 600);
+    return;
+  }
+
+  const originalLabel = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = '提交中…';
+
+  try {
+    // 1. 上传图片到 Storage
+    let photoUrl = null;
+    if (file) {
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const path = `${Date.now()}_${Math.random().toString(36).slice(2, 10)}.${ext}`;
+      const { error: upErr } = await sb.storage
+        .from(STORAGE_BUCKET)
+        .upload(path, file, { cacheControl: '3600', upsert: false });
+      if (upErr) throw new Error('图片上传失败：' + upErr.message);
+      const { data: urlData } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      photoUrl = urlData.publicUrl;
+    }
+
+    // 2. 自动生成卡片标题（取描述前 12 字符）
+    const autoTitle = description.length > 12
+      ? description.slice(0, 12) + '…'
+      : description;
+
+    // 3. 写入数据表（注意：只 RETURNING 公开列，避免触发 contact 列的权限检查）
+    const { data: inserted, error: dbErr } = await sb
+      .from('reports')
+      .insert([{
+        ref_id:      generateRefId(),
+        species,
+        found_at:    new Date(foundAt).toISOString(),
+        location,
+        description,
+        contact,
+        photo_url:   photoUrl,
+        title:       autoTitle,
+        status:      'pending',
+      }])
+      .select('id, ref_id, species, found_at, location, description, photo_url, title, status, created_at')
+      .single();
+
+    if (dbErr) throw new Error('保存失败：' + dbErr.message);
+
+    showToast('上报已提交，志愿者将尽快与您联系');
+    setTimeout(resetForm, 600);
+
+    // 4. 把刚提交的卡片插到"最近上报"最前
+    if (inserted) {
+      const card = buildReportCard(inserted);
+      recentGrid.insertBefore(card, recentGrid.firstChild);
+      // 删除超出 6 张的旧卡片
+      while (recentGrid.children.length > 6) {
+        recentGrid.removeChild(recentGrid.lastChild);
+      }
+    }
+  } catch (err) {
+    console.error('[Warmnest] submit error:', err);
+    showToast(err.message || '提交失败，请稍后再试', true);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
+  }
+}
+form.addEventListener('submit', handleSubmit);
+
+// ============ 加载最近上报 ============
+const FALLBACK_REPORTS = [
+  { ref_id:'WN-2026-0428', title:'桥下的小橘',         description:'瘦弱的橘色幼猫，蜷缩在桥洞角落，对人轻微警惕但接受食物。', location:'朝阳区 · 建国门外大街', status:'rescued',  created_at: new Date(Date.now() - 3*86400e3).toISOString(), photo_url:'https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=800&q=80' },
+  { ref_id:'WN-2026-0429', title:'停车场的灰色奶牛',   description:'疑似有人弃养的奶牛猫，毛色干净、亲人，志愿者已多次前往观察。', location:'海淀区 · 中关村南大街', status:'following', created_at: new Date(Date.now() - 2*86400e3).toISOString(), photo_url:'https://images.unsplash.com/photo-1561948955-570b270e7c36?w=800&q=80' },
+  { ref_id:'WN-2026-0430', title:'巷口的金毛阿黄',     description:'右后腿轻度跛行的金毛串串，性格温顺已送医检查并接种疫苗。', location:'东城区 · 雍和宫大街',   status:'rescued',  created_at: new Date(Date.now() - 2*86400e3).toISOString(), photo_url:'https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=800&q=80' },
+  { ref_id:'WN-2026-0501', title:'小区车库的三花',     description:'瘦弱三花猫带两只幼崽，住户偶尔投喂，需要尽快TNR绝育。',     location:'丰台区 · 万丰路',       status:'pending',  created_at: new Date(Date.now() - 1*86400e3).toISOString(), photo_url:'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=800&q=80' },
+  { ref_id:'WN-2026-0502', title:'公园边的黑色柴犬',   description:'疑似走失的柴犬，佩戴磨损项圈无名牌，已联系附近兽医站协查。', location:'西城区 · 月坛公园南门', status:'following', created_at: new Date(Date.now() - 18*3600e3).toISOString(), photo_url:'https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?w=800&q=80' },
+  { ref_id:'WN-2026-0503', title:'便利店门口的黑白',   description:'短毛黑白猫长期出没在便利店门口，眼部似有炎症，需就医检查。', location:'通州区 · 北苑大街',     status:'pending',  created_at: new Date(Date.now() - 6*3600e3).toISOString(),  photo_url:'https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=800&q=80' },
+];
+
+function renderReports(list) {
+  recentGrid.innerHTML = '';
+  list.forEach(r => recentGrid.appendChild(buildReportCard(r)));
+  // 重新触发淡入动画
+  recentGrid.classList.remove('in');
+  io.observe(recentGrid);
+}
+
+async function loadRecentReports() {
+  // 先渲染默认卡片，让页面立即有内容
+  renderReports(FALLBACK_REPORTS);
+
+  if (!sb) return;
+
+  try {
+    const { data, error } = await sb
+      .from('reports')
+      .select('id, ref_id, species, location, description, photo_url, title, status, created_at')
+      .order('created_at', { ascending: false })
+      .limit(6);
+    if (error) {
+      console.warn('[Warmnest] load reports error:', error.message);
+      return;
+    }
+    if (data && data.length > 0) {
+      renderReports(data);
+    }
+  } catch (err) {
+    console.warn('[Warmnest] load reports failed:', err);
+  }
+}
+loadRecentReports();
+
+// ============ Navbar shadow ============
+const navbar = document.querySelector('.navbar');
+window.addEventListener('scroll', () => {
+  navbar.style.boxShadow = window.scrollY > 20
+    ? '0 2px 20px rgba(94, 80, 63, 0.06)'
+    : 'none';
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>暖巢 Warmnest · 让每一个流浪的灵魂都有归处</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #FAF6F1;
+  --bg-deep:   #EAE0D5;
+  --card:      #FFFFFF;
+  --gold:      #C9A66B;
+  --gold-dark: #A8854B;
+  --deep:      #5E503F;
+  --text:      #22333B;
+  --muted:     #8B7E70;
+  --shadow-1:  0 4px 24px rgba(94, 80, 63, 0.08);
+  --shadow-2:  0 12px 40px rgba(94, 80, 63, 0.16);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Noto Serif SC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; }
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ============ Navbar ============ */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(250, 246, 241, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201, 166, 107, 0.14);
+  z-index: 100;
+  transition: box-shadow 0.3s;
+}
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 40px;
+}
+.logo {
+  font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--deep);
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+.logo .dot { color: var(--gold); margin: 0 4px; }
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  position: relative;
+  transition: color 0.3s;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -8px; left: 50%;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: all 0.3s;
+  transform: translateX(-50%);
+}
+.nav-links a:hover { color: var(--gold-dark); }
+.nav-links a:hover::after { width: 24px; }
+.nav-cta {
+  background: var(--deep);
+  color: var(--bg);
+  padding: 11px 24px;
+  border-radius: 2px;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.nav-cta:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+/* ============ Hero ============ */
+.hero {
+  min-height: 100vh;
+  padding: 120px 0 110px;
+  position: relative;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+.eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+.hero h1 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.28;
+  margin-bottom: 28px;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-dark);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  margin: 0 8px;
+  font-size: 1.05em;
+}
+.hero h1 .title-line {
+  display: block;
+  overflow: hidden;
+  padding: 4px 0;
+}
+.hero h1 .title-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: titleRise 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.hero h1 .title-line:nth-child(1) .title-inner { animation-delay: 0.15s; }
+.hero h1 .title-line:nth-child(2) .title-inner { animation-delay: 0.35s; }
+@keyframes titleRise {
+  to { transform: translateY(0); }
+}
+.hero .eyebrow,
+.hero .divider-gold,
+.hero p.lead,
+.hero-actions {
+  opacity: 0;
+  animation: fadeUpHero 1s ease forwards;
+}
+.hero .eyebrow { animation-delay: 0.05s; }
+.hero .divider-gold { animation-delay: 0.55s; }
+.hero p.lead { animation-delay: 0.7s; }
+.hero-actions { animation-delay: 0.9s; }
+@keyframes fadeUpHero {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.divider-gold {
+  width: 56px;
+  height: 1px;
+  background: var(--gold);
+  margin: 28px 0;
+}
+.hero p.lead {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 44px;
+  max-width: 480px;
+  line-height: 1.85;
+}
+.hero-actions { display: flex; gap: 18px; flex-wrap: wrap; }
+.btn {
+  display: inline-block;
+  padding: 16px 36px;
+  border-radius: 2px;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: all 0.4s;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+.btn-primary {
+  background: var(--deep);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: var(--gold-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(168, 133, 75, 0.25);
+}
+.btn-outline {
+  border: 1px solid var(--deep);
+  color: var(--deep);
+  background: transparent;
+}
+.btn-outline:hover {
+  background: var(--deep);
+  color: var(--bg);
+}
+.hero-visual {
+  position: relative;
+  aspect-ratio: 4/5;
+  max-width: 86%;
+  width: 86%;
+  justify-self: center;
+  margin: 0 auto;
+}
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  top: -24px; right: -24px;
+  width: 140px; height: 140px;
+  border: 1px solid var(--gold);
+  z-index: 0;
+}
+.hero-visual::after {
+  content: '';
+  position: absolute;
+  bottom: -24px; left: -24px;
+  width: 90px; height: 90px;
+  background: var(--gold);
+  opacity: 0.18;
+  z-index: 0;
+}
+.hero-visual img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.slideshow {
+  position: relative;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  border-radius: 2px;
+  z-index: 1;
+  box-shadow: var(--shadow-2);
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.slide.active {
+  opacity: 1;
+  animation: kenBurns 8s ease-in-out infinite alternate;
+}
+@keyframes kenBurns {
+  from { transform: scale(1.02) translate(0, 0); }
+  to { transform: scale(1.12) translate(-1.2%, -1.2%); }
+}
+.slide-meta {
+  position: absolute;
+  bottom: -44px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 3;
+  font-family: 'Cormorant Garamond', serif;
+}
+.slide-current,
+.slide-total {
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--deep);
+}
+.slide-current { color: var(--gold-dark); font-weight: 600; font-size: 22px; }
+.slide-line {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  display: inline-block;
+}
+
+/* ============ Stats ============ */
+.stats {
+  background: var(--bg-deep);
+  padding: 90px 0;
+  border-top: 1px solid rgba(201, 166, 107, 0.18);
+  border-bottom: 1px solid rgba(201, 166, 107, 0.18);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 60px;
+  text-align: center;
+}
+.stat .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 68px;
+  font-weight: 500;
+  color: var(--gold-dark);
+  line-height: 1;
+  letter-spacing: 1px;
+}
+.stat .num .plus { font-size: 38px; color: var(--gold); margin-left: 4px; }
+.stat .label {
+  margin-top: 14px;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--deep);
+}
+.stat .sub {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+  font-family: 'Noto Serif SC', serif;
+}
+
+/* ============ Section header (shared) ============ */
+.section-head {
+  text-align: center;
+  margin-bottom: 72px;
+}
+.section-head h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 44px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.section-head .divider-gold { margin: 22px auto; }
+.section-head p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ============ Adoption ============ */
+.adoption { padding: 130px 0; background: var(--bg); }
+.pet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+}
+.pet-card {
+  background: var(--card);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: var(--shadow-1);
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  cursor: pointer;
+}
+.pet-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-2);
+}
+.pet-img-wrap { aspect-ratio: 1; overflow: hidden; }
+.pet-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.pet-card:hover .pet-img-wrap img { transform: scale(1.06); }
+.pet-info { padding: 30px 28px 32px; }
+.pet-info .meta {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold-dark);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.pet-info h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 26px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  letter-spacing: 1px;
+}
+.pet-info .desc {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 22px;
+  line-height: 1.7;
+}
+.pet-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.tag {
+  background: var(--bg-deep);
+  color: var(--deep);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+.pet-link {
+  color: var(--deep);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 4px;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.pet-link:hover { color: var(--gold-dark); transform: translateX(4px); }
+.section-foot { text-align: center; margin-top: 64px; }
+
+/* ============ Stories ============ */
+.stories { padding: 130px 0; background: var(--bg-deep); }
+.story-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 240px 240px;
+  gap: 24px;
+}
+.story-card {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.story-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+.story-card:hover img { transform: scale(1.06); }
+.story-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(34, 51, 59, 0.88));
+  pointer-events: none;
+}
+.story-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px;
+  z-index: 2;
+  color: #fff;
+}
+.story-content .meta {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.story-content h3 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.story-content p {
+  font-size: 13px;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+.story-feat { grid-row: span 2; }
+.story-feat h3 { font-size: 30px; }
+.story-feat .meta { font-size: 12px; }
+
+/* ============ Volunteer CTA ============ */
+.volunteer {
+  padding: 150px 0;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.volunteer::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(201, 166, 107, 0.08) 0%, transparent 70%);
+  z-index: 0;
+}
+.volunteer-content {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.volunteer h2 {
+  font-family: 'Noto Serif SC', serif;
+  font-size: 50px;
+  font-weight: 500;
+  margin-bottom: 24px;
+  color: var(--text);
+  letter-spacing: 1px;
+  line-height: 1.25;
+}
+.volunteer p {
+  color: var(--muted);
+  margin-bottom: 44px;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* ============ Footer ============ */
+.footer {
+  background: var(--text);
+  color: rgba(250, 246, 241, 0.65);
+  padding: 90px 0 40px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.footer-brand .logo {
+  color: var(--bg);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+.footer-brand p {
+  font-size: 13px;
+  line-height: 1.85;
+  max-width: 320px;
+}
+.footer-col h4 {
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: 12px; }
+.footer-col a {
+  color: rgba(250, 246, 241, 0.65);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid rgba(201, 166, 107, 0.18);
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(250, 246, 241, 0.45);
+}
+
+/* ============ Marquee band ============ */
+.marquee-band {
+  background: var(--text);
+  padding: 32px 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(201, 166, 107, 0.32);
+  border-bottom: 1px solid rgba(201, 166, 107, 0.32);
+  position: relative;
+}
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  white-space: nowrap;
+  animation: marquee 38s linear infinite;
+  width: max-content;
+}
+.marquee-track span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-style: italic;
+  color: var(--bg);
+  letter-spacing: 8px;
+  text-transform: uppercase;
+}
+.marquee-track .m-dot {
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 0;
+  font-style: normal;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============ Decorative big letters ============ */
+.adoption,
+.stories,
+.volunteer {
+  position: relative;
+  overflow: hidden;
+}
+.adoption .container,
+.stories .container,
+.volunteer .volunteer-content {
+  position: relative;
+  z-index: 2;
+}
+.bg-letters {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 280px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--gold);
+  opacity: 0.07;
+  letter-spacing: 6px;
+  pointer-events: none;
+  z-index: 1;
+  white-space: nowrap;
+  line-height: 0.9;
+  user-select: none;
+}
+.adoption .bg-letters {
+  top: 60px;
+  right: -30px;
+}
+.stories .bg-letters {
+  bottom: 40px;
+  left: -40px;
+  color: var(--bg);
+  opacity: 0.06;
+}
+.volunteer .bg-letters {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 320px;
+  opacity: 0.05;
+}
+
+/* ============ Floating decorative dots ============ */
+.float-dot {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  background: var(--gold);
+  opacity: 0;
+  animation: floatRise linear infinite;
+  filter: blur(0.4px);
+}
+@keyframes floatRise {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-320px) translateX(28px);
+    opacity: 0;
+  }
+}
+
+/* ============ Scroll indicator ============ */
+.scroll-cue {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  z-index: 2;
+  text-decoration: none;
+  opacity: 0;
+  animation: fadeUpHero 1s ease 1.5s forwards;
+}
+.scroll-cue span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--deep);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.scroll-cue::after {
+  content: '';
+  width: 1px;
+  height: 60px;
+  background: var(--gold);
+  animation: scrollLine 2.2s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes scrollLine {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ============ Reveal animation ============ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 960px) {
+  .hero { min-height: auto; padding: 130px 0 100px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+  .hero h1 { font-size: 42px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 50px; }
+  .pet-grid { grid-template-columns: 1fr 1fr; }
+  .story-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .story-feat { grid-row: auto; }
+  .story-card { height: 280px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .volunteer h2 { font-size: 36px; }
+}
+@media (max-width: 640px) {
+  .container { padding: 0 24px; }
+  .nav-inner { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 110px 0 80px; }
+  .hero h1 { font-size: 34px; }
+  .section-head h2 { font-size: 32px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .stat .num { font-size: 52px; }
+  .pet-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ Navbar ============ -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="logo">暖巢<span class="dot">·</span>Warmnest</a>
+    <ul class="nav-links">
+      <li><a href="#home">首页</a></li>
+      <li><a href="adoption.html">待领养</a></li>
+      <li><a href="report.html">流浪动物上报</a></li>
+      <li><a href="#stories">救助故事</a></li>
+      <li><a href="#volunteer">志愿者</a></li>
+      <li><a href="#footer">关于我们</a></li>
+    </ul>
+    <a href="adoption.html" class="nav-cta">立即领养</a>
+  </div>
+</nav>
+
+<!-- ============ Hero ============ -->
+<section class="hero" id="home">
+  <span class="float-dot" style="left:4%;  bottom:8%;  width:8px; height:8px; animation-duration:13s; animation-delay:0s;"></span>
+  <span class="float-dot" style="left:10%; bottom:18%; width:5px; height:5px; animation-duration:15s; animation-delay:2.5s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:16%; bottom:6%;  width:6px; height:6px; animation-duration:12s; animation-delay:5s;"></span>
+  <span class="float-dot" style="left:24%; bottom:24%; width:4px; height:4px; animation-duration:17s; animation-delay:1.5s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:33%; bottom:12%; width:7px; height:7px; animation-duration:11s; animation-delay:7s;"></span>
+  <span class="float-dot" style="left:41%; bottom:4%;  width:5px; height:5px; animation-duration:14s; animation-delay:3.5s;"></span>
+  <span class="float-dot" style="left:48%; bottom:20%; width:6px; height:6px; animation-duration:13s; animation-delay:8s; background:var(--gold-dark);"></span>
+  <span class="float-dot" style="left:2%;  bottom:32%; width:4px; height:4px; animation-duration:16s; animation-delay:6s;"></span>
+  <span class="float-dot" style="left:18%; bottom:38%; width:5px; height:5px; animation-duration:14s; animation-delay:9.5s;"></span>
+  <span class="float-dot" style="left:36%; bottom:30%; width:6px; height:6px; animation-duration:15s; animation-delay:4s; background:var(--gold-dark);"></span>
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="eyebrow">A Home For Every Soul · EST. 2026</div>
+      <h1>
+        <span class="title-line"><span class="title-inner">给每一个流浪的<em>灵魂</em></span></span>
+        <span class="title-line"><span class="title-inner">一个温暖的归处</span></span>
+      </h1>
+      <div class="divider-gold"></div>
+      <p class="lead">我们相信，每一只在街角等待的小生命都值得被认真对待。在这里，救助不是义务，而是一种选择 —— 选择让爱回家。</p>
+      <div class="hero-actions">
+        <a href="adoption.html" class="btn btn-primary">浏览待领养</a>
+        <a href="#footer" class="btn btn-outline">了解我们</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="slideshow">
+        <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=900&h=1100&fit=crop&q=80')"></div>
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1561948955-570b270e7c36?w=900&h=1100&fit=crop&q=80')"></div>
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=900&h=1100&fit=crop&q=80')"></div>
+      </div>
+      <div class="slide-meta">
+        <span class="slide-current">01</span>
+        <span class="slide-line"></span>
+        <span class="slide-total">03</span>
+      </div>
+    </div>
+  </div>
+  <a href="#adoption" class="scroll-cue"><span>SCROLL</span></a>
+</section>
+
+<!-- ============ Stats ============ -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat reveal">
+        <div class="num"><span data-target="2847">0</span></div>
+        <div class="label">Rescued</div>
+        <div class="sub">已救助生命</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num"><span data-target="1562">0</span></div>
+        <div class="label">Adopted</div>
+        <div class="sub">已找到归宿</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num"><span data-target="486">0</span></div>
+        <div class="label">Volunteers</div>
+        <div class="sub">志愿伙伴</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num"><span data-target="38">0</span></div>
+        <div class="label">Partners</div>
+        <div class="sub">合作机构</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Marquee band ============ -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Rescue</span><span class="m-dot">●</span>
+    <span>Adopt</span><span class="m-dot">●</span>
+    <span>Care</span><span class="m-dot">●</span>
+    <span>Love</span><span class="m-dot">●</span>
+    <span>Hope</span><span class="m-dot">●</span>
+    <span>Home</span><span class="m-dot">●</span>
+    <span>Rescue</span><span class="m-dot">●</span>
+    <span>Adopt</span><span class="m-dot">●</span>
+    <span>Care</span><span class="m-dot">●</span>
+    <span>Love</span><span class="m-dot">●</span>
+    <span>Hope</span><span class="m-dot">●</span>
+    <span>Home</span><span class="m-dot">●</span>
+  </div>
+</div>
+
+<!-- ============ Adoption ============ -->
+<section class="adoption" id="adoption">
+  <div class="bg-letters">Adopt</div>  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">Looking For Home</div>
+      <h2>等待回家的它们</h2>
+      <div class="divider-gold"></div>
+      <p>每一只都有自己的故事。也许下一段缘分，正在等你打开。</p>
+    </div>
+    <div class="pet-grid">
+      <article class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=600&h=600&fit=crop&q=80" alt="布丁">
+        </div>
+        <div class="pet-info">
+          <div class="meta">No. 0247 · Female</div>
+          <h3>布丁</h3>
+          <p class="desc">温柔的中华田园猫，喜欢阳光和被人轻轻摸下巴。她在等一个安静的家。</p>
+          <div class="pet-tags">
+            <span class="tag">2 岁</span>
+            <span class="tag">已绝育</span>
+            <span class="tag">亲人</span>
+          </div>
+          <a href="#" class="pet-link">查看详情</a>
+        </div>
+      </article>
+      <article class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="https://images.unsplash.com/photo-1583511655826-05700d52f4d9?w=600&h=600&fit=crop&q=80" alt="大豆">
+        </div>
+        <div class="pet-info">
+          <div class="meta">No. 0312 · Male</div>
+          <h3>大豆</h3>
+          <p class="desc">活泼健康的中华田园犬，会握手，渴望一次长长的散步和被等待的傍晚。</p>
+          <div class="pet-tags">
+            <span class="tag">3 岁</span>
+            <span class="tag">已疫苗</span>
+            <span class="tag">活泼</span>
+          </div>
+          <a href="#" class="pet-link">查看详情</a>
+        </div>
+      </article>
+      <article class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=600&h=600&fit=crop&q=80" alt="奶盖">
+        </div>
+        <div class="pet-info">
+          <div class="meta">No. 0289 · Female</div>
+          <h3>奶盖</h3>
+          <p class="desc">安静慵懒的橘白小姐姐。她不太说话，但会用呼噜声告诉你她很爱你。</p>
+          <div class="pet-tags">
+            <span class="tag">1.5 岁</span>
+            <span class="tag">已绝育</span>
+            <span class="tag">安静</span>
+          </div>
+          <a href="#" class="pet-link">查看详情</a>
+        </div>
+      </article>
+    </div>
+    <div class="section-foot">
+      <a href="adoption.html" class="btn btn-outline">查看全部 132 只</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Stories ============ -->
+<section class="stories" id="stories">
+  <div class="bg-letters">Stories</div>  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow">After The Adoption</div>
+      <h2>他们后来过得很好</h2>
+      <div class="divider-gold"></div>
+      <p>领养不是终点，而是新生活的开始。</p>
+    </div>
+    <div class="story-grid">
+      <div class="story-card story-feat reveal">
+        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=900&h=900&fit=crop&q=80" alt="">
+        <div class="story-content">
+          <div class="meta">FEATURED · 2026.04</div>
+          <h3>从巷口的雨中，到沙发的午后</h3>
+          <p>毛球曾是雨夜里那只发抖的小猫。如今，它霸占了整张沙发。</p>
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=600&h=600&fit=crop&q=80" alt="">
+        <div class="story-content">
+          <div class="meta">2026.03</div>
+          <h3>第一次海边奔跑</h3>
+        </div>
+      </div>
+      <div class="story-card reveal">
+        <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&h=600&fit=crop&q=80" alt="">
+        <div class="story-content">
+          <div class="meta">2026.02</div>
+          <h3>三只猫的客厅</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Volunteer CTA ============ -->
+<section class="volunteer" id="volunteer">
+  <div class="bg-letters">Join Us</div>  <div class="volunteer-content">
+    <div class="eyebrow">Join Us</div>
+    <h2>用你的一份力<br>温暖一座城</h2>
+    <div class="divider-gold" style="margin: 24px auto;"></div>
+    <p>无论是周末的喂养行动，还是远程的内容协作；无论你能给出多少时间，每一份善意都不会被辜负。</p>
+    <a href="#" class="btn btn-primary">成为志愿者</a>
+  </div>
+</section>
+
+<!-- ============ Footer ============ -->
+<footer class="footer" id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">暖巢<span class="dot" style="color:var(--gold)">·</span>Warmnest</div>
+        <p>一个专注于流浪动物救助与领养的公益社交平台。让每一只灵魂，都有归处。</p>
+      </div>
+      <div class="footer-col">
+        <h4>探索</h4>
+        <ul>
+          <li><a href="adoption.html">待领养</a></li>
+          <li><a href="#stories">救助故事</a></li>
+          <li><a href="#volunteer">志愿者招募</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <ul>
+          <li><a href="#">领养流程</a></li>
+          <li><a href="#">捐赠物资</a></li>
+          <li><a href="#">常见问题</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>联系</h4>
+        <ul>
+          <li><a href="mailto:hello@warmnest.org">hello@warmnest.org</a></li>
+          <li><a href="#">微博 @暖巢Warmnest</a></li>
+          <li><a href="#">微信公众号</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 暖巢 Warmnest · All rights reserved.</div>
+      <div>Made with care for every soul.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 滚动时给 navbar 加阴影
+const nav = document.querySelector('.navbar');
+window.addEventListener('scroll', () => {
+  nav.style.boxShadow = window.scrollY > 20 ? '0 2px 16px rgba(94,80,63,0.06)' : 'none';
+});
+
+// 元素入场动画
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('active');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(el => io.observe(el));
+
+// 数字滚动
+const numEls = document.querySelectorAll('.stat .num span');
+const numIO = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = parseInt(el.dataset.target);
+    let cur = 0;
+    const dur = 1600;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      cur = Math.floor(target * eased);
+      el.textContent = cur.toLocaleString();
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString();
+    };
+    requestAnimationFrame(tick);
+    numIO.unobserve(el);
+  });
+}, { threshold: 0.5 });
+numEls.forEach(el => numIO.observe(el));
+
+// 图片轮播
+const slides = document.querySelectorAll('.slideshow .slide');
+const slideCurrentEl = document.querySelector('.slide-current');
+const slideTotalEl = document.querySelector('.slide-total');
+if (slides.length && slideCurrentEl && slideTotalEl) {
+  slideTotalEl.textContent = String(slides.length).padStart(2, '0');
+  let idx = 0;
+  setInterval(() => {
+    slides[idx].classList.remove('active');
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add('active');
+    slideCurrentEl.textContent = String(idx + 1).padStart(2, '0');
+  }, 4500);
+}
+</script>
+
+</body>
+</html>
