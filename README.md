@@ -38,7 +38,7 @@
 - 待领养动物卡片展示，含编号、名称、性格描述
 - 四步领养流程说明（浏览 → 申请 → 面谈 → 接它回家）
 - 领养须知与"终身承诺"提示模块
-- **AI 智能匹配**：用户填写居住情况、生活节奏、相处偏好、饲养经验后，AI 以流式输出方式生成个性化宠物推荐建议
+- AI智能匹配：用户填写居住情况、生活节奏、相处偏好、饲养经验后，AI以流式输出方式生成个性化宠物推荐建议
 
 ---
 
@@ -53,7 +53,6 @@
 | 动画 | IntersectionObserver、CSS Keyframes |
 | 数据库 | Supabase（PostgreSQL + RLS 行级安全） |
 | 文件存储 | Supabase Storage（`animal-photos` 桶） |
-| AI 模块 | Claude API（流式输出，SSE 直连） |
 | 部署 | GitHub Pages |
 
 ---
